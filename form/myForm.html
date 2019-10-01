@@ -1,0 +1,65 @@
+<html>
+
+<head>
+		<title>Registration Form</title>
+		<link rel="stylesheet" type="text/css" href="myForm.css">
+		<script src="myForm.js" type="text/javascript"></script>
+	</head>
+
+<body>
+
+	<input type="submit" value="LOG IN" id="in" onclick="showForm()"/>
+<fieldset style="display:none" id="form">
+<h1>REGISTRATION FORM</h1>
+<form action="submit.php"  method="post" onsubmit="return check_form()"> 
+		First Name: <br><input type="text" id="fName" name="firstname" required="" placeholder="First Name"><br><br>
+		Last Name:<br> <input type="text" required="" id="Lname" name="lastname"  placeholder="Last Name"><br><br>
+
+		Username:<br> <input type="text" id="username" name="username" placeholder="Username" onkeyup="check_username(this.value)" required><br>
+				<label class="notify" id="notify_username"></label><br>
+
+		Email:<br><input type="email" id="email" name="email" placeholder="(example@email.com)" onkeyup="check_email(this.value)" required><br>
+				<label class="notify" id="notify_email"></label><br><br>
+
+		Password:<br><input type="password" id="password" name="password" placeholder="Password" onkeydown="check_password(this.value)" required><br>
+				<label class="notify" id="notify_password"></label><br>
+
+
+		Gender:<br>
+		<input type="radio" id="male" name="gender" value="Male">
+		<label for="male">Male</label>
+		<input type="radio" id="female" name="gender" value="Female">
+		<label for="female">Female</label>
+		<br><br>
+		Marital Status:<br>
+		<input type="radio" id="single" name="status" value="Single" onclick="hideSpouse()">Single
+		<input type="radio" id="married" name="status" value="Married" onclick="showSpouse()">Married
+		<br><br>
+		<div id="spouse" style="display:none">
+		<label>Spouse: </label>
+		<input type='text' name="spouse"><br>
+		Name of Children:
+		<div id="child">
+            <label></label><br><input type="text" name="children[]" class="child">
+        </div>
+            <input type="button" name="add",id="add" value="+" onclick="AddField(this.value)">
+            <input type="button" name="remove", id="remove", value="-" onclick="RemoveField(this.value)">
+		</div>
+		<br><br>
+		     <label for="favorites"><b>Favorites <span>*</span></b></label><br>
+				<input type="checkbox" value="Sports" id="1" name="favorites[]">Sports<br>
+				<input type="checkbox" value="Music" id="2" name="favorites[]">Music<br>
+				<input type="checkbox" value="Online Games" id="3" name="favorites[]">Online Games<br>
+		 		<input type="checkbox" value="Social Media" id="4" name="favorites[]">Social Media<br>
+		 		<input type="checkbox" value="Adventures" id="5" name="favorites[]">Adventures<br><br>
+			
+	 			<button type="submit" class="submitbtn">Submit</button>
+
+</form>
+
+<form method="post" action="myForm.html">
+<input type="submit" class="btn" value="REFRESH"/>
+</form>
+</fieldset>
+</body>
+</html>

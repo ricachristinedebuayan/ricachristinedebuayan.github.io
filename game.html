@@ -1,0 +1,894 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>K&Q MAZE CHALLENGE</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+</head>
+<body>
+    
+<div id="menu" style="display:block;">
+    <center> 
+        <h3>Welcome and Play</h3>
+            <table style="table-layout: auto;">
+                <tr>
+                    <th><input type="button" id="instructions" onclick="ins()" style="display: block" value="MENU">
+                            <p id="notify" style="margin-top: 0px"><i>Click "MENU"<br>for instructions</i></p></th>
+                    <th><img src="assets/game.png"></th> 
+                    <th><input type="button" id="menu" value="PLAY" onclick="myFunction()"> <p style="margin-top: 0px"><i>Click "PLAY"<br>to start game.</i></th>
+                 </tr>
+            </table> 
+    </center>
+</div>
+<fieldset id="n" style="display:none;">
+       <p> Welcome to the<br><b style="color:red">King and Queen<br>MAZE CHALLENGE!</b><br><br><br><b>PLAYER ONE:</b><br><i>(Queen)</i><br>-(↑) for moving up<br>-(←)for moving left<br>-(→)for moving right<br><br><a href="game.html">Start Again?</a><br><b>NOTE:<br></b><i>(If the screen of the game is too wide, zoom in or reduce the tab size until you can see the whole maze.)</i><br></p>
+</fieldset>
+
+<fieldset id="m" style="display:none;">
+      <p> Welcome to the<br><b style="color:red">King and Queen<br>MAZE CHALLENGE!</b><br><br><br><b>PLAYER TWO:</b><br><i>(King)</i><br>-(W) for moving up<br>-(A)for moving left<br>-(D)for moving right<br><br><a href="game.html">Start Again?</a><br><b>NOTE:<br></b><i>(If the screen of the game is too wide, zoom in or reduce the tab size until you can see the whole maze.)</i><br></p>
+</fieldset>
+
+<script type="text/javascript">
+
+
+    function ins() {
+
+        
+        document.getElementById('instructions').style.display= 'none';
+        document.getElementById('notify').innerHTML = "Welcome to the<br><b>King and Queen MAZE CHALLENGE!<br><br><br>ABOUT:</b><br>-2 players game<br>-Player 1 uses the arrows key (up,left,right)<br>-Player 2 uses keyboard letters( W-up , A-left , D-right  )<br>-Different backgrounds for different levels<br>-Enemies increases when level increases.<br><br><br>GOAL:<br>-Players must collect all the GOLDEN MUSHROOM<br>-Players work together<br>-Players should be patient in passing the maze<br>-Avoid the posionous mushroom and the bomb<br><br><br><b>NOTE:<br></b><i>(If the screen of the game is too wide, zoom in or reduce the tab size until you can see the whole maze.)</i><br>";
+        document.getElementById('notify').style.color= "#006600";
+        document.getElementById('notify').style.fontSize= "large";
+        document.getElementById('notify').style.background= "white";
+    }
+
+
+
+    function myFunction() {
+        document.getElementById('m').style.display= 'block';
+         document.getElementById('n').style.display= 'block';
+        document.getElementById('menu').style.display = 'none';
+        var game = new Phaser.Game(config);
+    }
+
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 1000,
+        height: 850,
+        physics: {
+            default: 'arcade',
+            arcade:{
+                gravity:{y:300},
+                debug:false
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+
+
+
+    var player;
+    var stars;
+    var bombs;
+    var kill;
+    var cursors;
+    var player2;
+    var letcursor;
+    var play;
+    var score = 0;
+    var scoreText;
+    var killText;
+    var level = 1;
+    var levelText;
+    var bg;
+    var alert;
+    var platforms;
+
+    
+    function preload ()
+    {
+
+
+        //loading of characters
+        this.load.image('sky', 'assets/rica.png');
+        this.load.image('cloud', 'assets/cloud.gif');
+        this.load.image('ground', 'assets/groun.png');
+        this.load.image('wall-L','assets/Left.png');
+        this.load.image('wall-R','assets/Right.png');
+        this.load.image('wall-U','assets/Up.png');
+        this.load.image('wall-S','assets/stand.png');
+        this.load.image('star', 'assets/coin.png');
+        this.load.image('bomb', 'assets/be.png');
+        this.load.image('posmus', 'assets/pos.png');
+        this.load.spritesheet('dude', 'assets/girl.png',{ frameWidth: 27, frameHeight: 38 }); 
+        this.load.spritesheet('part', 'assets/partner.png',{ frameWidth: 27, frameHeight: 38 }); 
+        this.load.image('ground1', 'assets/platform2.png');
+        this.load.image('grown', 'assets/Wall-C.png');
+        this.load.image('wall-C', 'assets/wall.png');
+        this.load.image('sideR', 'assets/sideR.png');
+        this.load.image('sideL', 'assets/sideL.png');
+        this.load.image('over', 'assets/over.png');
+        this.load.image('conL', 'assets/small.png');
+        this.load.image('conR', 'assets/smallR.png');
+        this.load.image('conU', 'assets/smallU.png');
+    }
+
+
+    
+
+    function create ()
+    {
+
+        //this is for background image and all behind the platfroms
+        bg = this.add.image(500, 400, 'sky');
+        this.add.image(200, 100, 'cloud').setScale(0.5);
+        this.add.image(500, 200, 'cloud').setScale(0.5);
+        this.add.image(880, 80, 'cloud').setScale(0.5);
+        this.add.image(235,15, 'wall-U');
+        this.add.image(770,15, 'wall-U');
+        this.add.image(500,15, 'wall-U');
+        this.add.image(230,806, 'ground1');
+        this.add.image(770,806, 'ground1');
+        this.add.image(500,806, 'ground1');
+
+    
+
+        //this is for adding group of platforms
+        platforms = this.physics.add.staticGroup();
+
+        //ground wall
+        platforms.create(200,840 , 'ground').setScale(1.1).refreshBody();
+        platforms.create(500,840 , 'ground').setScale(1.1).refreshBody();
+        platforms.create(800,840 , 'ground').setScale(1.1).refreshBody();
+
+        //right wall
+        platforms.create(982,220, 'wall-R').setScale(1.1).refreshBody();
+        platforms.create(982,605, 'wall-R').setScale(1.1).refreshBody();
+
+        //left side wall
+        platforms.create(18,220 , 'wall-L').setScale(1.1).refreshBody();
+        platforms.create(18,605 , 'wall-L').setScale(1.1).refreshBody();
+        
+        //stand maze line
+        
+
+        //1
+        platforms.create(83, 225, 'wall-S').setScale(0.5).refreshBody();
+        platforms.create(83, 575, 'wall-S').setScale(0.5).refreshBody();
+        //2
+        platforms.create(248, 298, 'wall-S').setScale(0.5).refreshBody();
+        platforms.create(248, 645, 'wall-S').setScale(0.5).refreshBody();
+
+        //3
+        platforms.create(432, 368, 'wall-S').setScale(0.5).refreshBody();
+        
+        platforms.create(432, 645, 'conU').setScale(0.5).refreshBody();
+        platforms.create(563, 508, 'wall-S').setScale(0.5).refreshBody();
+
+        //4
+        platforms.create(747, 578, 'wall-S').setScale(0.5).refreshBody();
+        platforms.create(747, 228, 'wall-S').setScale(0.5).refreshBody();
+
+        //5
+       
+        platforms.create(917, 715, 'conU').setScale(0.5).refreshBody();
+        platforms.create(917, 298, 'wall-S').setScale(0.5).refreshBody();
+        
+       
+
+        //center flat  maze line
+        //1b
+        platforms.create(842, 750, 'sideR').setScale(0.5).refreshBody();
+        platforms.create(580, 750, 'grown').setScale(0.5).refreshBody();
+        platforms.create(340, 750, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(115, 750, 'sideL').setScale(0.5).refreshBody();
+        //2b
+        platforms.create(885, 680, 'sideR').setScale(0.5).refreshBody();
+        platforms.create(655, 680, 'grown').setScale(0.5).refreshBody();
+        platforms.create(450, 680, 'conR').setScale(0.5).refreshBody();
+        platforms.create(420, 680, 'conL').setScale(0.5).refreshBody();
+        platforms.create(215, 680, 'sideR').setScale(0.5).refreshBody();
+        platforms.create(230, 680, 'sideL').setScale(0.5).refreshBody();
+
+        //3b
+        platforms .create(825, 610, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(590, 610, 'grown').setScale(0.5).refreshBody();
+        platforms.create(338, 610, 'grown').setScale(0.5).refreshBody();
+        platforms.create(115, 610, 'sideL').setScale(0.5).refreshBody();
+
+        //4b
+        platforms.create(885, 540, 'sideR').setScale(0.5).refreshBody();
+        platforms.create(655, 540, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(415, 540, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(175, 540, 'grown').setScale(0.5).refreshBody();
+
+        //5b
+        platforms.create(825, 470, 'grown').setScale(0.5).refreshBody();
+        platforms.create(580, 470, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(340, 470, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(122, 470, 'conR').setScale(0.5).refreshBody();
+
+        //6b
+        platforms.create(885, 400, 'sideR').setScale(0.5).refreshBody();
+        platforms.create(655, 400, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(415, 400, 'grown').setScale(0.5).refreshBody();
+        platforms.create(175, 400, 'wall-C').setScale(0.5).refreshBody();
+
+        //7b
+        platforms.create(825, 330, 'grown').setScale(0.5).refreshBody();
+        platforms.create(580, 330, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(340, 330, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(115, 330, 'sideL').setScale(0.5).refreshBody();
+
+        //8b
+        platforms.create(885, 260, 'sideR').setScale(0.5).refreshBody();
+        platforms.create(655, 260, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(415, 260, 'grown').setScale(0.5).refreshBody();
+        platforms.create(206, 260, 'conL').setScale(0.5).refreshBody();
+
+        //9b
+        platforms.create(800, 190, 'conR').setScale(0.5).refreshBody();
+        platforms.create(580, 190, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(340, 190, 'grown').setScale(0.5).refreshBody();
+        platforms.create(115, 190, 'sideL').setScale(0.5).refreshBody();
+
+        //10b
+        platforms.create(885, 120, 'sideR').setScale(0.5).refreshBody();
+        platforms.create(655, 120, 'grown').setScale(0.5).refreshBody();
+        platforms.create(415, 120, 'wall-C').setScale(0.5).refreshBody();
+        platforms.create(175, 120, 'grown').setScale(0.5).refreshBody();
+
+    
+
+       
+
+        //this is for the player
+        player = this.physics.add.sprite(175, 750, 'dude');
+        player.setBounce(0.53);
+        player.setCollideWorldBounds(true);
+
+
+        //this is for accessing the sprite sheet or making it turn left and right
+        this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'turn',
+            frames: [ { key: 'dude', frame: 4 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+
+        //when the sprites hit the platform it stops
+        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, player2);
+
+
+
+        player2 = this.physics.add.sprite(575, 750, 'part');
+        player2.setBounce(0.53);
+        player2.setCollideWorldBounds(true);
+
+        //this is for accessing the sprite sheet or making it turn left and right
+        this.anims.create({
+            key: 'Key_A',
+            frames: this.anims.generateFrameNumbers('part', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'center',
+            frames: [ { key: 'part', frame: 4 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'Key_D',
+            frames: this.anims.generateFrameNumbers('part', { start: 5, end: 8 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+
+        //when the sprite hit the platform it stops
+        this.physics.add.collider(player2, platforms);
+        this.physics.add.collider(player2, player);
+
+
+
+
+        //for built-in keyboards
+        cursors = this.input.keyboard.createCursorKeys();
+        letcursor = this.input.keyboard.addKeys({up:Phaser.Input.Keyboard.KeyCodes.W,down:Phaser.Input.Keyboard.KeyCodes.S,left:Phaser.Input.Keyboard.KeyCodes.A,right:Phaser.Input.Keyboard.KeyCodes.D});
+
+//1st group of golden mushrooms called stars
+
+        //creating new group called 'stars'
+        stars = this.physics.add.group({
+            key: 'star',
+            repeat: 4,
+            setXY: { x: 120, y: 20, stepX: 200 },
+        });
+
+
+        stars.children.iterate(function (child) {
+
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+        });
+
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars, collectStar, null, this);
+        this.physics.add.overlap(player2, stars, collectStar, null, this);
+
+
+//2nd
+         stars1 = this.physics.add.group({
+            key: 'star',
+            repeat: 4,
+            setXY: { x: 50, y: 150, stepX: 220 },
+        });
+
+
+        stars1.children.iterate(function (child) {
+
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+        });
+
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars1, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars1, collectStar, null, this);
+        this.physics.add.overlap(player2, stars1, collectStar, null, this);
+//3rd
+
+        stars2 = this.physics.add.group({
+            key: 'star',
+            repeat: 3,
+            setXY: { x: 180, y: 200, stepX: 180 },
+        });
+
+
+        stars2.children.iterate(function (child) {
+
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+        });
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars2, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars2, collectStar, null, this);
+         this.physics.add.overlap(player2, stars2, collectStar, null, this);
+
+///4th
+
+        stars3 = this.physics.add.group({
+            key: 'star',
+            repeat: 4,
+            setXY: { x: 150, y: 300, stepX: 145 },
+        });
+
+
+        stars3.children.iterate(function (child) {
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+        });
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars3, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars3, collectStar, null, this);
+        this.physics.add.overlap(player2, stars3, collectStar, null, this);
+
+
+//5th
+         stars4 = this.physics.add.group({
+            key: 'star',
+            repeat: 4,
+            setXY: { x: 100, y: 350, stepX: 200 },
+        });
+
+
+        stars4.children.iterate(function (child) {
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+        });
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars4, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars4, collectStar, null, this);
+        this.physics.add.overlap(player2, stars4, collectStar, null, this);
+
+
+
+//6th
+         stars5 = this.physics.add.group({
+            key: 'star',
+            repeat: 4,
+            setXY: { x: 150, y: 400, stepX: 170 },
+        });
+
+
+        stars5.children.iterate(function (child) {
+
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+        });
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars5, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars5, collectStar, null, this);
+        this.physics.add.overlap(player2, stars5, collectStar, null, this);
+
+//7th
+         stars6 = this.physics.add.group({
+            key: 'star',
+            repeat: 5,
+            setXY: { x: 90, y: 500, stepX: 175 },
+        });
+
+
+        stars6.children.iterate(function (child) {
+
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+        });
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars6, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars6, collectStar, null, this);
+        this.physics.add.overlap(player2, stars6, collectStar, null, this);
+
+//8th
+         stars7 = this.physics.add.group({
+            key: 'star',
+            repeat: 4,
+            setXY: { x: 50, y: 550, stepX: 200 },
+        });
+
+
+        stars7.children.iterate(function (child) {
+
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+        });
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars7, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars7, collectStar, null, this);
+        this.physics.add.overlap(player2, stars7, collectStar, null, this);
+
+//9th
+         stars8 = this.physics.add.group({
+            key: 'star',
+            repeat: 4,
+            setXY: { x: 250, y: 600, stepX: 170 },
+        });
+
+
+        stars8.children.iterate(function (child) {
+
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+        });
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars8, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars8, collectStar, null, this);
+        this.physics.add.overlap(player2, stars8, collectStar, null, this);
+
+//10th
+         stars9 = this.physics.add.group({
+            key: 'star',
+            repeat: 4,
+            setXY: { x: 50, y: 700, stepX: 220 },
+        });
+
+
+        stars9.children.iterate(function (child) {
+
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+        });
+
+
+        //creating collision against platforms
+        this.physics.add.collider(stars9, platforms);
+        //to prevent the player overlaps with star
+        this.physics.add.overlap(player, stars9, collectStar, null, this);
+        this.physics.add.overlap(player2, stars9, collectStar, null, this);
+
+
+
+
+
+        //setting up a scoreText
+        scoreText = this.add.text(80, 50, 'Score: 0', { font: '35px Arial Black', fill: '#ff33cc' });
+        levelText = this.add.text(750, 50, 'Level: 1', { font: '35px Arial Black', fill: '#0000ff', fontWeight:'bold'});
+        
+
+
+
+        scoreText.stroke = "#de77ae";
+        scoreText.strokeThickness = 16;
+    //  Apply the shadow to the Stroke and the Fill (this is the default)
+        scoreText.setShadow(2, 2, "#333333", 2, true, true);
+        levelText.stroke = "#de77ae";
+        levelText.strokeThickness = 16;
+    //  Apply the shadow to the Stroke and the Fill (this is the default)
+        levelText.setShadow(2, 2, "#333333", 2, true, true);
+
+
+
+
+        //creating group for bombs and poisonous mushroom and a couple of colliders
+        bombs = this.physics.add.group();
+
+        this.physics.add.collider(bombs, platforms);
+
+        this.physics.add.collider(player, bombs, hitBomb, null, this);
+        this.physics.add.collider(player2, bombs, hitBomb, null, this);
+
+        poisons = this.physics.add.group();
+
+        this.physics.add.collider(poisons, platforms);
+
+        this.physics.add.collider(player, poisons, hitBomb, null, this);
+        this.physics.add.collider(player2, poisons, hitBomb, null, this);
+
+
+ 
+    }
+
+    function update ()
+    {
+
+        if (level%3==0){
+            levelText.setFill('#ed0909');
+             bg.setTint(0xcc6600);
+              bg.setTint(0x66ffff);
+        }
+
+        else if(level%2==0){
+            bg.setTint(0x000000);
+            levelText.setFill('#00ff55');
+        }else if(level%5==0){
+            bg.setTint(0xb3ffb3);
+            levelText.setFill('#0000ff');
+        }
+
+        //check to see if the left key is being held down
+        if (cursors.left.isDown)
+        {
+            //apply a negative horizontal velocity 
+            player2.setVelocityX(-160);
+            //and start the 'left' running animation.
+            player2.anims.play('left', true);
+        }
+        //if right it do the opposite
+        else if (cursors.right.isDown)
+        {
+            player2.setVelocityX(160);
+
+            player2.anims.play('right', true);
+        }
+        else
+        {
+            //key check sets the animation to 'turn' and zero the horizontal velocity if no key is held down.
+            player2.setVelocityX(0);
+
+            player2.anims.play('turn');
+        }
+
+        //jumping effect
+        if (cursors.up.isDown && player.body.touching.down)
+        {
+            player2.setVelocityY(-330);
+        }
+
+
+//for 2nd player
+         if (letcursor.left.isDown)
+        {
+            //apply a negative horizontal velocity 
+            player.setVelocityX(-160);
+            //and start the 'left' running animation.
+            player.anims.play('Key_A', true);
+        }
+        //if right it do the opposite
+        else if (letcursor.right.isDown)
+        {
+            player.setVelocityX(160);
+
+            player.anims.play('Key_D', true);
+        }
+        else
+        {
+            //key check sets the animation to 'turn' and zero the horizontal velocity if no key is held down.
+            player.setVelocityX(0);
+
+            player.anims.play('center');
+        }
+
+        //jumping effect
+        if (letcursor.up.isDown && player.body.touching.down)
+        {
+            player.setVelocityY(-330);
+        }
+            
+    }
+
+
+    function collectStar (player, star)
+    {
+
+        star.disableBody(true, true);
+        
+        //modfiy the collectStar function so that when the player picks-up a star their score increases and the text is updated
+        score += 1;
+        scoreText.setText('Score: ' + score);
+
+//this will drop all the stars again when they are all collected
+        if ((stars.countActive(true)==0 && stars1.countActive(true)==0 && stars2.countActive(true)==0 && stars3.countActive(true)==0 &&stars4.countActive(true)==0 && stars5.countActive(true)==0 &&stars6.countActive(true)==0 && stars7.countActive(true)==0 && stars8.countActive(true)==0 && stars9.countActive(true) === 0)){
+
+
+            stars.children.iterate(function (child) {
+            child.enableBody(true, child.x,0, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+            stars1.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+            stars2.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+            stars3.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+
+            stars4.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+            stars5.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+            stars6.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+            stars7.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+            stars8.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+            stars9.children.iterate(function (child) {
+            child.enableBody(true, child.x,child.y, true, true);
+            child.setBounce(0.8);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), 20);
+
+            });
+
+//bombs will appear
+
+            var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+            var bomb = bombs.create(x, player.y-300, 'bomb');
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);  
+
+            
+        }
+//level increases
+        if (score%50==0){
+            level += 1;
+            levelText.setText('Level: ' + level);
+
+        }
+
+//poisonous mushroom will appear
+        if (score%35==0){
+            
+             var w = (player2.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+            var poison = poisons.create(w, player2.y, 'posmus');
+            poison.setBounce(1);
+            poison.setCollideWorldBounds(true);
+            poison.setVelocity(Phaser.Math.Between(-200, 200), 20);  
+        }
+
+       
+
+        
+    }
+
+
+    function hitBomb (player, bomb)
+    {
+        this.physics.pause();
+
+
+        player.setTint(0xFF0000);
+        bg.setTint(0xa5a1a0);
+        player.anims.play('turn');
+        player2.anims.play('turn');
+        killText = this.add.text(150, 250, 'GAME OVER!', { font: '100px Arial Black',fill: '#ff0000',align:'center' });
+        killText.setShadow(-5, 5, ' rgba(255,255,0)', 0);//
+        play = this.add.text(38, 450, 'Press "F5" or click the "Start Again?" to play again', { fontSize: '45px Arial Black',fill: '#ff00ff',align:'center' });
+        play.setShadow(-2, 2, ' rgba(255, 255, 0)', 0);
+        this.add.image(500,400, 'over');
+        
+        gameOver = true;
+        
+    }
+
+    function render(){
+        game.debug.text('stage layer' , 16,52);
+    }
+
+</script>
+
+</body>
+<style>
+
+
+/*for designs*/
+body{
+    background:#00ff99;
+    background-image: url("https://wallpaperplay.com/walls/full/b/1/3/218071.jpg");
+    text-align:center;
+    font-family:Palatino Linotype;
+
+}
+input[type=button]{
+    padding:15px;
+    font-size: 30px;
+    background: yellow;
+    float:center;
+    font-family:Palatino Linotype;
+}
+
+#m{
+    float: left;
+    width:300px;
+    font-size: 25px;
+    background-color: #e6fff3;
+}
+
+#n{
+    float: right;
+    width:300px;
+    font-size: 25px;
+    background-color: #e6fff3;
+
+}
+
+
+fieldset p{
+  color:#006600;
+  
+}
+
+h3{
+    font-family:Palatino Linotype;
+    text-align:center;
+    color: blue;
+    text-shadow: 10px 10px 17px #ffff00, 0 0 5px #ffff00, 0 0 20px #e6f3ff;
+    font-size: 110px;
+    font-weight: bold;
+    margin-top:0px;
+    margin-bottom: 0px;
+}
+
+input[type=button]:hover {
+    background-color:#f5f5f5;
+}
+
+i{
+    color:#0033cc;
+}
+
+fieldset p i{
+    color:#0033cc;
+    font-size: 20px;
+}
+
+
+</style>
+</html>
+
+

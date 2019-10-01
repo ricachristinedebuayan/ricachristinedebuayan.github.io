@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>NN</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+  body {
+    font: 20px Montserrat, sans-serif;
+    line-height: 1.8;
+    color: black;
+    text-align: center;
+  }
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}
+  .bg-1 { 
+     background:#00ff99; /* Green */
+    color: #ffffff;
+  }
+  .bg-2 { 
+    background-color: #474e5d; /* Dark Blue */
+    color: #ffffff;
+  }
+  .bg-3 { 
+    background-color: #ffffff; /* White */
+    color: #555555;
+  }
+  .bg-4 { 
+    background-color: #2f2f2f; /* Black Gray */
+    color: #fff;
+  }
+  .container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+
+  }
+  .navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+     position: fixed;
+     width: 100%;
+  }
+
+   .well{
+      background: white;
+      border-color: blue;
+    }
+
+    .wewe{
+      color: black; 
+      text-align: justify;
+      font-family: georgia;
+
+
+    }
+
+
+  .navbar-nav  li a:hover {
+    color: #1abc9c !important;
+  }
+
+
+  th img{
+    width: 50px;
+    height: 50px;
+  }
+
+   footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      min-height: 200px;
+    }
+
+    /* Hide the carousel text when the screen is less than 600 pixels wide */
+    @media (max-width: 800px) {
+      .carousel-caption {
+        display: none; 
+      }
+    }
+
+
+     .well p{
+      color: black; 
+      text-align: justify;
+    }
+
+
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Me</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">WHO</a></li>
+        <li><a href="#">WHAT</a></li>
+        <li><a href="#">WORK</a></li>
+        <li><a href="#f">CONTACT</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- First Container -->
+<div class="container-fluid bg-1 text-center">
+  <h3 class="margin">Who Am I?</h3>
+  <img src="assets/me.jpg" class="img-responsive img-circle margin" style="display:inline;width: 500px;height: 400px;">
+  <h3>Greetings Everyone! I am Rica Christine D. Debuayan </h3>
+</div>
+
+<!-- Second Container -->
+<div class="container-fluid bg-2 text-center">
+  <h3 class="margin">What Am I?</h3>
+  <p>I am a freshman CCT (<i>Certificate of Computer Technology</i>) scholar student of <a href="https://www.passerellesnumeriques.org/en/"  target="_blank" style="color:white">Passerelles Numeriques-Philippines</a>, a non-profit organization under French law, and studying in University of San Carlos-Talamban Campus. I lived in Obong, Dalaguete, Cebu. I am 19 years old. IT (<i>Information Technology</i>) has never been my option but as time pass by I learned to love it and become more interested, especially in game development. I love adventures and travelling especially on mountainous area. I dream of being a Software and Game Developer,someday, as well as travelling oustide my country.</p>
+</div>
+
+<!-- GameContainer (Grid) -->
+
+<div class="container-fluid bg-1 text-center">
+   <h3 class="margin">My Project</h3>
+  <div class="container">
+<div class="row" >
+  <div class="col-sm-8">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img src="assets/game.png" alt="Image">
+          <div class="carousel-caption">
+            <h3>King and Queen Maze Challenge</h3>
+            <a href="game.html">PLAY NOW!</a>
+          </div>      
+        </div>
+
+        <div class="item">
+          <img src="assets/op.PNG" alt="Image">
+          <div class="carousel-caption">
+            <h3>Two Player</h3>
+            <h3>Two Player Play Together</h3>
+            <a href="game.html">PLAY NOW!</a>
+          </div>      
+        </div>
+
+          <div class="item">
+          <img src="assets/two.PNG" alt="Image">
+          <div class="carousel-caption">
+            <h3 style="color:white">Two Player</h3>
+            <h3 style="color:white">Two Player Play Together</h3>
+            <a href="game.html">PLAY NOW!</a>
+          </div>      
+        </div>
+
+      </div>
+
+
+
+
+      <!-- Left and right controls -->
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="well">
+      <p>King and Queen MAZE CHALLENGE is a game with passages, this are platforms arranged to form a maze,  where two players can play the game.The players can only move or run through the space where there’s no platforms/fences/walls. Players work together and their goal is to collect all the GOLDEN MUSHROOM. Once they have collected all the mushroom, they can proceed to another level.There will be different backgrounds for different levels. While the players are moving or running around the maze, there will be enemies that will distract them and as the level increases there will be more enemies coming. This enemies are the posionous mushroom and the bomb which players should avoid. If the enemies hit either of them, they will get killed and the game is over.
+</p>
+  </div>
+</div>
+<hr>
+</div>
+</div>
+<div class="wewe">
+       <i><h2>" I created this game together with my partner, Annabelle Belcina, as our game project to be submitted for our subject, Guided Study 2, in our second semester. We used <a href="https://phaser.io/phaser3" target="_blank" style="color: black">PHASER 3</a> (a fast, free, and fun open source HTML5 game framework that offers WebGL and Canvas rendering across desktop and mobile web browsers) and JavaScript for the development of our game."</h2></i>
+</div>
+<hr>
+</div>
+
+
+
+<!-- Third Container (Grid) -->
+<div class="container-fluid bg-3 text-center">    
+
+</div>
+
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+  <div style="margin-right: 10%;">
+  <div class="col-sm-2">
+  <center> 
+    <h3 class="margin" id="f" style="margin-right: 10%">Follow me:</h3>
+            <table style="table-layout: auto;">
+                <tr>
+                    <th><a href="#f"><img src="https://www.freeiconspng.com/uploads/facebook-logo-3.png"></a></th>
+                    <th><a href="#f"><img src="http://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c521.png"></a></th> 
+                    <th><a href="#f"><img src="http://www.logospng.com/images/0/gmail-iconsvg-wikiversity-670.png"></a></th>
+                    <th><a href="#f"><img src="http://www.logospng.com/images/66/youtube-50-bringt-support-f-252r-nonstop-playback-android-user-66381.png"></a></th>
+                 </tr>
+            </table> 
+    </center>
+  </div>
+</div>
+<div style="margin-left:10%;">
+  <h3 style="text-align: left">Leave a comment:</h3>
+  <div class="col-sm-1">
+    <p>Email:</p>
+    <p>Comment:</p>
+  </div>
+  <div class="col-sm-1">
+    <input type="text" placeholder="Your email" style="color: black"><br><br>
+    <input type="text" textarea="100px" style="color: black">
+  </div>
+</div>
+
+</footer>
+<hr>
+  <p style="font-size: 10px">COPYRIGHT ©2019. Passerrelles Numeriques Philippines-Guide Study 2 Project. All Rights Reserved.</p> 
+  <a href="" style="padding-top: 0%;font-size: 10px">Back to top</a>
+</body>
+</html>

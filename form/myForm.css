@@ -1,0 +1,114 @@
+body{
+font-family: georgia;
+margin-left:20%;
+margin-right:20%;
+background-image:url("http://www.appgraffiti.com/cms/imgfolder/FBL_img_704n.jpg");
+font-weight: bold;
+}
+
+fieldset{
+border:30px black solid;
+background-image:url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/4M04x-Kueijnfl2yb/falling-and-swirling-pink-rose-petals-or-cherry-tree-blossoms-spring-slow-motion-hd-animation-close-up-with-blurred-background-japanese-design_rs7nlmxbl_thumbnail-full01.png");
+}
+
+
+h1{
+font-family: georgia;
+text-align:center;
+font-weight: bold;
+color:#cc00ff;
+font-size: 50px;
+}
+
+
+form{
+border-color: blue;
+text-align:inline-block;
+margin:0 auto;
+}
+
+/*br{
+	margin-top: 0px;
+}*/
+
+
+.childBtn {
+background-color: red;
+color: white;
+padding: 10px 10px;
+margin-left: : auto;
+cursor: pointer;
+}
+
+
+.submitbtn {
+background-color: red;
+color: white;
+margin-top: 10px;
+padding: 16px 20px;
+border: none;
+cursor: pointer;
+width: 100%;
+opacity: 0.9;
+font-family: georgia;
+}
+
+
+.btn {
+background-color: green;
+color: white;
+margin-top: 10px;
+padding: 16px 20px;
+border: none;
+cursor: pointer;
+width: 100%;
+opacity: 0.9;
+font-family: georgia;
+}
+
+.btn:hover {
+opacity: 1;
+}
+
+
+#in{
+	padding:50px;
+	margin-top:35%;
+	margin-left: 20%;
+	margin-right: 30%;
+	background-image:url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/4M04x-Kueijnfl2yb/falling-and-swirling-pink-rose-petals-or-cherry-tree-blossoms-spring-slow-motion-hd-animation-close-up-with-blurred-background-japanese-design_rs7nlmxbl_thumbnail-full01.png");
+	font-size: 80px;
+	font-weight:bold;
+	color:#cc00ff;
+	border:30px black solid;
+	font-family: georgia;
+	font-weight: bold;
+}
+.child{
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	display: inline-block;
+	border: none;
+	background: #f1f1f1;
+}
+
+.submitbtn:hover {
+opacity: 1;
+}
+
+input[type=button]{
+	padding:5px;
+	background: yellow;
+	float:right;
+}
+
+
+input[type=text], input[type=password],input[type=text], input[type=number],input[type=email]{
+width: 100%;
+padding: 15px;
+margin: 5px 0 22px 0;
+display: inline-block;
+border: none;
+background: #f1f1f1;
+}

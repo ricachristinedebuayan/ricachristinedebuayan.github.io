@@ -1,0 +1,208 @@
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JavaScript Simple Calculator</title>
+</head>
+
+
+<body style="text-align:center">
+ <h1>Simple Calculator Applying JAVASCRIPT</h1>
+	<div id="calculatorBody"> 
+<div>  <input id="AC" type="button" onclick="clearAll()" value="AC"/> <span id="answer">0</span>
+  <div class="row">
+             
+             
+</div>
+  <div class="row">
+      <input type="button" onclick="numericButton('7')" value="7"/>
+      <input type="button" onclick="numericButton('8')" value="8"/>
+      <input type="button"  onclick="numericButton('9')" value="9"/>
+      <input type="button" id="op" onclick="operatorButton('+')" value="+"/>
+</div>
+  <div class="row">
+      <input type="button"  onclick="numericButton('4')" value="4"/>
+      <input type="button" onclick="numericButton('5')" value="5"/>
+      <input type="button"  onclick="numericButton('6')" value="6"/>
+    <input type="button" id="op" onclick="operatorButton('-')" value="-"/>
+</div>
+  <div class="row">
+      <input type="button"  onclick="numericButton('1')" value="1"/>
+      <input type="button"  onclick="numericButton('2')" value="2"/>
+      <input type="button"  onclick="numericButton('3')" value="3"/>
+      <input type="button" id="op" onclick="operatorButton('*')" value="*"/>
+</div>
+  <div class="row">
+     <input type="button"  onclick="numericButton('0')" value="0"/>
+     <input type="button" onclick="numericButton('.')" value="."/>
+     <input id="equals" type="button"  onclick="calculateData(data)" value="="/>
+     <input type="button"  id="op" onclick="operatorButton('/')" value="/"/>
+          
+
+</div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+        var data = [];              //this will contain all the input data, numbers and operators, in an array
+        var input = 0;
+
+        //Perform a calculation expressed as an array of operators and numbers
+        function calculateData(value){
+            if (input !==0) {
+            input = parseFloat(input);                      //parses a string and returns a floating point number.
+
+                addToData(input);                  //call function that adds the input to the array of data
+                            }
+            var answer = value[0];
+            var dividedByZero = 0;
+            for (  var i = 2; i < value.length; i= i+2) {
+ 
+                switch (data[i-1]) {                    //indexing or accessing contents in the array of data
+                    case '+':
+                        answer+= value[i];
+                        break;
+                    case '-':
+                        answer-= value[i];
+                        break;
+                    case '/':    if (value[i] === 0)   dividedByZero = 1;
+                            else      answer = answer / value[i];
+
+                        break;
+                    case'*': answer = answer * value[i];
+                        break;
+                }
+
+            }
+
+            answer = answer.toFixed(10);
+            answer = parseFloat(answer);
+            if ( dividedByZero === 1) { clearAll();
+                document.getElementById("answer").innerHTML =  "Error";}
+            else
+            {document.getElementById("answer").innerHTML =  answer ;
+                input = answer;
+                data = [];}
+
+
+        }
+        function addToData(input){
+            data.push(input);                 //appends or add the inputs to the array or data list
+        }
+
+        function clearAll() {              // this function will make the array of data  empty and the input will become equals to zero
+            data = [];
+            input = 0;
+            document.getElementById("answer").innerHTML = "0";
+        }
+        function numericButton(arg){ 
+            if ( document.getElementById("answer").innerHTML ===  "Error" || (document.getElementById("answer").innerHTML == "0" && arg != "."))
+              { document.getElementById("answer").innerHTML = ""; }
+
+            if (!(arg === ".") || !input.match(/[.]/)) {
+
+            input += arg;
+            document.getElementById("answer").innerHTML += arg;}//appends decimal point after the input, only if its a number and not a string
+
+
+        }
+        function operatorButton(arg){//if the subtract button was clicked while input field is empty, if so add - to input value
+            if (input !== 0 && input !== "-") { 
+                input = parseFloat(input);
+                addToData(input);
+                addToData(arg);
+                document.getElementById("answer").innerHTML +=arg;
+                input = 0;
+
+            }
+            if (arg == "-"  && isNaN(data[0]) && input !== "-")
+            {input ="-";
+
+                document.getElementById("answer").innerHTML = "-";
+
+
+          }
+
+
+        }
+       
+</script>
+
+<style type="text/css">
+
+body{
+  background-color: #e8dcf2;
+}
+
+ #calculatorBody{
+  width: 315px;
+  background:#65bc6a;
+  margin: auto;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px;
+}
+
+#answer{
+  width: 200px;
+  height: 30px;
+  display: inline-block;
+  text-align: right;
+  font-family: 'Dosis', sans-serif;
+  margin: 5px;
+  padding: 12px;
+  border-radius: 10px;
+  background: white;
+  font-size: 30px;
+}
+input[type="button"]{
+  cursor: pointer;
+  width: 65px;
+  height: 65px;
+  border-radius: 10px;
+  padding: 30px;
+  font-size: 20px;
+  margin: 5px; 
+  font-family: 'Dosis', sans-serif;
+  border: none;
+  outline: none;
+  box-shadow: 2px 2px 4px;
+  background: #a9f9d4;
+  text-align: center; 
+}
+
+input[type="button"]:hover{
+  background-color: white;
+  color:green;
+}
+
+#op:hover{
+  background-color: white;
+  color:green;
+}
+
+#op{
+  background-color:#04eda3;
+}
+
+#AC:hover{
+  background-color: white;
+  color:green;
+}
+
+#AC {
+   background: #eded00;
+    padding: 10px;
+}
+
+#equals:hover{
+  background-color: white;
+  color:green;
+}
+
+#equals{
+  background: #0cf9e2;
+}
+
+</style>
+<html>
