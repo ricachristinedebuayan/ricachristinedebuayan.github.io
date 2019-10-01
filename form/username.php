@@ -1,4 +1,4 @@
-<?php
+<script>
 
 //for username
 $a[]="Anna";
@@ -53,4 +53,4 @@ else if($check==true){
 } else {
 	echo "";
 }
-?>
+</script>
